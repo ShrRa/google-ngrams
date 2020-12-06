@@ -26,7 +26,7 @@ def getNgrams(query, corpus, startYear, endYear, smoothing, caseInsensitive):
     if '@' in params['content']:
         params['content'] = params['content'].replace('@', '=>')
     req = requests.get('http://books.google.com/ngrams/graph', params=params)
-    res = re.findall('var data = (.*?);\\n', req.text)
+    res = re.findall('var ngrams = (.*?);\\n', req.text)
     if res:
         data = {qry['ngram']: qry['timeseries']
                 for qry in literal_eval(res[0])}
@@ -48,6 +48,7 @@ def runQuery(argumentString):
     corpus, startYear, endYear, smoothing = 'eng_2012', 1800, 2000, 3
     printHelp, caseInsensitive, allData = False, False, False
     toSave, toPrint, toPlot = True, True, False
+    filename=''
 
     # parsing the query parameters
     for param in params:
