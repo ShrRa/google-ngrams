@@ -69,6 +69,8 @@ def runQuery(argumentString):
             caseInsensitive = True
         elif '-alldata' in param:
             allData = True
+        elif '-filename' in param:
+            filename=str(param.split('=')[1])            
         elif '-help' in param:
             printHelp = True
         else:
@@ -129,8 +131,11 @@ def runQuery(argumentString):
             word_case = 'caseInsensitive'
         else:
             word_case = 'caseSensitive'
-        filename = '%s-%s-%d-%d-%d-%s.csv' % (queries, corpus, startYear,
+        
+        if not filename:
+            filename = '%s-%s-%d-%d-%d-%s.csv' % (queries, corpus, startYear,
                                               endYear, smoothing, word_case)
+        
         if toSave:
             for col in df.columns:
                 if '&gt;' in col:
